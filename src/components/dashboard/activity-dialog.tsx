@@ -31,7 +31,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] animate-pop-in">
         <DialogHeader>
           <DialogTitle>{isEditing ? 'Editar Atividade' : 'Adicionar Atividade'}</DialogTitle>
           <DialogDescription>

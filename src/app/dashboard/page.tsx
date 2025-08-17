@@ -7,7 +7,7 @@ export default function DashboardPage() {
     <>
       <Header title="Dashboard" />
       <main className="flex-1 overflow-auto p-4 md:p-6">
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3 animate-fade-in">
           <div className="lg:col-span-2">
             <ActivityList />
           </div>
