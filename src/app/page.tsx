@@ -1,30 +1,27 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-background">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="items-center text-center">
-          <Logo />
-          <CardTitle className="text-3xl font-bold text-primary mt-4 font-headline">
-            Bem-vindo ao Tempo Certo
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Sua jornada para estudos mais produtivos começa aqui.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <Button asChild size="lg">
-            <Link href="/login">Entrar</Link>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background text-center p-8">
+      <div className="max-w-2xl mx-auto">
+        <Logo className="justify-center mb-8" />
+        <h1 className="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-foreground mb-6 fade-in">
+          Foco. Produtividade. Sucesso.
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10 slide-in-from-bottom">
+          Tempo Certo é a sua nova ferramenta para transformar o estudo em uma atividade mais inteligente e eficiente.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pop-in">
+          <Button asChild size="lg" className="text-lg py-7 px-8">
+            <Link href="/dashboard">Começar a Estudar</Link>
           </Button>
-          <Button asChild variant="secondary" size="lg">
-            <Link href="/signup">Criar Conta</Link>
+          <Button asChild variant="secondary" size="lg" className="text-lg py-7 px-8">
+            <Link href="/login">Acessar Conta</Link>
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </main>
   );
 }

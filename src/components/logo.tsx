@@ -3,9 +3,11 @@ import { cn } from '@/lib/utils';
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <div className={cn("flex items-center gap-2 text-primary", className)}>
-      <Hourglass className="h-8 w-8" />
-      <span className="text-xl font-bold font-headline">Tempo Certo</span>
+    <div className={cn("flex items-center gap-3 text-foreground", className)}>
+      <div className="bg-primary text-primary-foreground p-2 rounded-lg">
+        <Hourglass className="h-7 w-7" />
+      </div>
+      <span className="text-2xl font-bold font-headline tracking-tighter">Tempo Certo</span>
     </div>
   );
 }

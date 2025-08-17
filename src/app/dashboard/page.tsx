@@ -10,7 +10,8 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
     },
   },
 };
@@ -21,7 +22,9 @@ const itemVariants = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.5,
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
     },
   },
 };
@@ -30,9 +33,9 @@ export default function DashboardPage() {
   return (
     <>
       <Header title="Dashboard" />
-      <main className="flex-1 overflow-auto p-4 md:p-6">
+      <main className="flex-1 overflow-auto p-6 md:p-8">
         <motion.div 
-          className="grid gap-6 lg:grid-cols-3"
+          className="grid gap-8 lg:grid-cols-3"
           variants={containerVariants}
           initial="hidden"
           animate="visible"

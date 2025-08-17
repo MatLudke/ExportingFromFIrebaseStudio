@@ -106,11 +106,11 @@ export function StudyTimer() {
   }
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col border-none shadow-xl shadow-black/5">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Sessão de Estudo</CardTitle>
+            <CardTitle className="text-2xl font-bold tracking-tight">Sessão de Estudo</CardTitle>
             <CardDescription>{getModeLabel()}</CardDescription>
           </div>
           <Button variant="ghost" size="icon">
@@ -119,17 +119,31 @@ export function StudyTimer() {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col items-center justify-center flex-1 gap-6">
-        <div className="relative h-48 w-48">
-            <Progress value={(timeLeft / getTotalTime()) * 100} className="absolute h-full w-full rounded-full"/>
+      <CardContent className="flex flex-col items-center justify-center flex-1 gap-8">
+        <div className="relative h-56 w-56">
+            <svg className="absolute inset-0" viewBox="0 0 100 100">
+                <circle className="stroke-current text-muted/50" strokeWidth="5" cx="50" cy="50" r="45" fill="transparent" />
+                <circle
+                    className="stroke-current text-primary"
+                    strokeWidth="5"
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="transparent"
+                    strokeDasharray={`${2 * Math.PI * 45}`}
+                    strokeDashoffset={`${2 * Math.PI * 45 * (1 - (timeLeft / getTotalTime()))}`}
+                    transform="rotate(-90 50 50)"
+                    style={{ transition: 'stroke-dashoffset 1s linear' }}
+                />
+            </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-5xl font-bold font-mono text-primary">{formatTime(timeLeft)}</span>
+                <span className="text-6xl font-bold font-mono tracking-tighter text-foreground">{formatTime(timeLeft)}</span>
             </div>
         </div>
         
         <div className="w-full space-y-4">
           <Select>
-            <SelectTrigger>
+            <SelectTrigger className="py-6">
               <SelectValue placeholder="Selecione uma atividade para focar" />
             </SelectTrigger>
             <SelectContent>
@@ -143,18 +157,18 @@ export function StudyTimer() {
             </SelectContent>
           </Select>
           <div className="flex justify-center gap-4">
-            <Button size="lg" onClick={toggleTimer} className="w-32">
+            <Button size="lg" onClick={toggleTimer} className="w-40 py-7 text-lg">
               {isActive ? <Pause className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
               {isActive ? 'Pausar' : 'Iniciar'}
             </Button>
-            <Button size="lg" variant="outline" onClick={resetTimer}>
+            <Button size="lg" variant="outline" onClick={resetTimer} className="py-7">
               <RefreshCw className="h-5 w-5" />
             </Button>
           </div>
         </div>
         <div className="flex gap-2">
             {[...Array(POMODOROS_BEFORE_LONG_BREAK)].map((_, i) => (
-                <div key={i} className={`h-3 w-3 rounded-full ${i < pomodoros ? 'bg-primary' : 'bg-muted'}`} />
+                <div key={i} className={`h-3 w-3 rounded-full transition-colors ${i < pomodoros ? 'bg-primary' : 'bg-muted'}`} />
             ))}
         </div>
       </CardContent>

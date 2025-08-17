@@ -46,11 +46,11 @@ export function ActivityList() {
 
   return (
     <>
-      <Card>
+      <Card className="border-none shadow-xl shadow-black/5">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Minhas Atividades</CardTitle>
+              <CardTitle className="text-2xl font-bold tracking-tight">Minhas Atividades</CardTitle>
               <CardDescription>Gerencie suas tarefas e sessões de estudo.</CardDescription>
             </div>
             <Button size="sm" className="gap-1" onClick={handleAddNew}>
@@ -73,14 +73,15 @@ export function ActivityList() {
             </TableHeader>
             <TableBody>
               {mockActivities.map((activity) => (
-                <TableRow key={activity.id}>
+                <TableRow key={activity.id} className="hover:bg-muted/50">
                   <TableCell className="font-medium">{activity.title}</TableCell>
                   <TableCell>{activity.subject}</TableCell>
                   <TableCell className="hidden md:table-cell">
                     <Badge variant="outline" className={cn(
-                      activity.priority === 'high' && 'bg-red-100 text-red-800 border-red-200',
-                      activity.priority === 'medium' && 'bg-yellow-100 text-yellow-800 border-yellow-200',
-                      activity.priority === 'low' && 'bg-green-100 text-green-800 border-green-200'
+                      "font-semibold",
+                      activity.priority === 'high' && 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800',
+                      activity.priority === 'medium' && 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/40 dark:text-yellow-300 dark:border-yellow-800',
+                      activity.priority === 'low' && 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800'
                     )}>
                       {activity.priority === 'high' ? 'Alta' : activity.priority === 'medium' ? 'Média' : 'Baixa'}
                     </Badge>
@@ -97,7 +98,7 @@ export function ActivityList() {
                         <DropdownMenuItem onClick={() => handleEdit(activity)}>
                             <Pencil className="mr-2 h-4 w-4"/> Editar
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
+                        <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10">
                             <Trash2 className="mr-2 h-4 w-4"/> Deletar
                         </DropdownMenuItem>
                       </DropdownMenuContent>

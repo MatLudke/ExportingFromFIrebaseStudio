@@ -27,8 +27,8 @@ export function SidebarNav() {
             <SidebarMenuButton
               isActive={pathname === item.href}
               className={cn(
-                'w-full justify-start',
-                pathname === item.href && 'bg-primary/10 text-primary'
+                'w-full justify-start text-base gap-3 p-6',
+                pathname === item.href && 'bg-sidebar-accent text-sidebar-accent-foreground'
               )}
             >
               <item.icon className="h-5 w-5" />

@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { SidebarNav } from '@/components/dashboard/sidebar-nav';
-import { Header } from '@/components/dashboard/header';
 
 export default function DashboardLayout({
   children,
@@ -20,15 +19,15 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <Sidebar variant="sidebar" collapsible="icon">
+      <Sidebar variant="sidebar" collapsible="icon" className="border-r-0 bg-sidebar">
         <SidebarHeader>
           <Logo />
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="p-2">
           <SidebarNav />
         </SidebarContent>
         <SidebarFooter>
-          <Button variant="ghost" className="w-full justify-start gap-2" asChild>
+          <Button variant="ghost" className="w-full justify-start gap-3 p-6 text-base" asChild>
             <Link href="/">
               <LogOut className="h-5 w-5" />
               <span>Sair</span>
@@ -37,7 +36,7 @@ export default function DashboardLayout({
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full bg-background">
             {children}
         </div>
       </SidebarInset>

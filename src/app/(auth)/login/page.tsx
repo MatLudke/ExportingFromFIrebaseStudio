@@ -13,16 +13,16 @@ import { Logo } from '@/components/logo';
 
 export default function LoginPage() {
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader className="text-center">
+    <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
+      <CardHeader className="text-center space-y-4">
         <Logo className="mb-4 justify-center" />
-        <CardTitle className="text-2xl font-headline">Entrar</CardTitle>
+        <CardTitle className="text-3xl font-headline tracking-tight">Bem-vindo de Volta</CardTitle>
         <CardDescription>
-          Use seu e-mail e senha para acessar sua conta.
+          Acesse sua conta para continuar.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -30,6 +30,7 @@ export default function LoginPage() {
               type="email"
               placeholder="seu@email.com"
               required
+              className="py-6"
             />
           </div>
           <div className="grid gap-2">
@@ -37,20 +38,20 @@ export default function LoginPage() {
               <Label htmlFor="password">Senha</Label>
               <Link
                 href="#"
-                className="ml-auto inline-block text-sm underline"
+                className="ml-auto inline-block text-sm text-primary hover:underline"
               >
                 Esqueceu sua senha?
               </Link>
             </div>
-            <Input id="password" type="password" required />
+            <Input id="password" type="password" required className="py-6" />
           </div>
-          <Button type="submit" className="w-full" asChild>
+          <Button type="submit" className="w-full py-6 text-base" asChild>
             <Link href="/dashboard">Entrar</Link>
           </Button>
         </div>
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-6 text-center text-sm">
           Não tem uma conta?{' '}
-          <Link href="/signup" className="underline">
+          <Link href="/signup" className="font-medium text-primary hover:underline">
             Criar conta
           </Link>
         </div>

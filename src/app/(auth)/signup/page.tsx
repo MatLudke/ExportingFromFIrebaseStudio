@@ -14,19 +14,19 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 export default function SignupPage() {
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader className="text-center">
+    <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
+      <CardHeader className="text-center space-y-4">
         <Logo className="mb-4 justify-center" />
-        <CardTitle className="text-2xl font-headline">Criar Conta</CardTitle>
+        <CardTitle className="text-3xl font-headline tracking-tight">Crie Sua Conta</CardTitle>
         <CardDescription>
-          Preencha os campos abaixo para começar.
+          Comece sua jornada de produtividade hoje.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           <div className="grid gap-2">
             <Label htmlFor="full-name">Nome Completo</Label>
-            <Input id="full-name" placeholder="Seu Nome" required />
+            <Input id="full-name" placeholder="Seu Nome" required className="py-6"/>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -35,25 +35,26 @@ export default function SignupPage() {
               type="email"
               placeholder="seu@email.com"
               required
+              className="py-6"
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Senha</Label>
-            <Input id="password" type="password" required />
+            <Input id="password" type="password" required className="py-6"/>
           </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="terms" required />
+          <div className="flex items-start space-x-3 pt-2">
+            <Checkbox id="terms" required className="mt-1"/>
             <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground">
-              Eu aceito os termos de serviço e a política de privacidade (LGPD).
+              Eu aceito os <Link href="#" className="underline hover:text-primary">termos de serviço</Link> e a <Link href="#" className="underline hover:text-primary">política de privacidade</Link>.
             </Label>
           </div>
-          <Button type="submit" className="w-full" asChild>
-            <Link href="/dashboard">Criar conta</Link>
+          <Button type="submit" className="w-full py-6 text-base" asChild>
+            <Link href="/dashboard">Criar Conta Gratuitamente</Link>
           </Button>
         </div>
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-6 text-center text-sm">
           Já tem uma conta?{' '}
-          <Link href="/login" className="underline">
+          <Link href="/login" className="font-medium text-primary hover:underline">
             Entrar
           </Link>
         </div>
