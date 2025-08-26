@@ -14,10 +14,12 @@ import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { GoogleIcon } from '@/components/icons/google-icon';
+import { AppleIcon } from '@/components/icons/apple-icon';
 
 
 export default function SignupPage() {
@@ -63,6 +65,23 @@ export default function SignupPage() {
         variant: "destructive",
         title: "Account Creation Error",
         description,
+      });
+    }
+  };
+  
+  const handleSocialLogin = async (provider: any) => {
+    try {
+      await signInWithPopup(auth, provider);
+      toast({
+        title: "Account created successfully!",
+        description: "Redirecting to your dashboard.",
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+       toast({
+        variant: "destructive",
+        title: "Signup Error",
+        description: "An error occurred during social signup. Please try again.",
       });
     }
   };
@@ -128,6 +147,27 @@ export default function SignupPage() {
           <Button type="submit" className="w-full py-6 text-base" onClick={handleSignup}>
             Create Account for Free
           </Button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Button variant="outline" onClick={() => handleSocialLogin(googleProvider)}>
+              <GoogleIcon className="mr-2 h-4 w-4" />
+              Google
+            </Button>
+            <Button variant="outline">
+              <AppleIcon className="mr-2 h-4 w-4" />
+              Apple
+            </Button>
+          </div>
         </div>
         <div className="mt-6 text-center text-sm">
           Already have an account?{' '}

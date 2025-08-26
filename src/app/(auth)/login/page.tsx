@@ -13,10 +13,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { useState, useEffect } from 'react';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { GoogleIcon } from '@/components/icons/google-icon';
+import { AppleIcon } from '@/components/icons/apple-icon';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -50,6 +52,23 @@ export default function LoginPage() {
         variant: "destructive",
         title: "Login Error",
         description: "Invalid email or password. Please try again.",
+      });
+    }
+  };
+
+  const handleSocialLogin = async (provider: any) => {
+    try {
+      await signInWithPopup(auth, provider);
+      toast({
+        title: "Login successful!",
+        description: "Redirecting to your dashboard.",
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+       toast({
+        variant: "destructive",
+        title: "Login Error",
+        description: "An error occurred during social login. Please try again.",
       });
     }
   };
@@ -107,6 +126,26 @@ export default function LoginPage() {
           <Button type="submit" className="w-full py-6 text-base" onClick={handleLogin}>
             Sign In
           </Button>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Button variant="outline" onClick={() => handleSocialLogin(googleProvider)}>
+              <GoogleIcon className="mr-2 h-4 w-4" />
+              Google
+            </Button>
+            <Button variant="outline">
+              <AppleIcon className="mr-2 h-4 w-4" />
+              Apple
+            </Button>
+          </div>
         </div>
         <div className="mt-6 text-center text-sm">
           Don't have an account?{' '}
