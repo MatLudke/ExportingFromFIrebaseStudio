@@ -39,13 +39,12 @@ export default function SignupPage() {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
       
-      if (auth.currentUser) {
-        await updateProfile(auth.currentUser, {
-          displayName: fullName,
-        });
-      }
+      await updateProfile(user, {
+        displayName: fullName,
+      });
 
       toast({
         title: "Account created successfully!",
