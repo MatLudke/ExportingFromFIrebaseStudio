@@ -14,8 +14,8 @@ import type { StudySession } from '@/lib/types';
 const GenerateSummaryInputSchema = z.array(z.object({
     id: z.string(),
     activityId: z.string(),
-    startTime: z.string().datetime(),
-    endTime: z.string().datetime(),
+    startTime: z.date(),
+    endTime: z.date(),
     duration: z.number().describe('Duration in minutes'),
     subject: z.string(),
 }));
@@ -28,13 +28,8 @@ export type GenerateSummaryOutput = z.infer<typeof GenerateSummaryOutputSchema>;
 
 
 export async function generateSummary(input: StudySession[]): Promise<GenerateSummaryOutput> {
-  // We need to transform the input to match the schema, as dates are not directly supported in the prompt input
-  const flowInput = input.map(session => ({
-    ...session,
-    startTime: session.startTime.toISOString(),
-    endTime: session.endTime.toISOString(),
-  }));
-  return generateSummaryFlow(flowInput);
+  // Pass the input directly to the flow as it matches the schema
+  return generateSummaryFlow(input);
 }
 
 const prompt = ai.definePrompt({
