@@ -1,11 +1,12 @@
 "use server";
 
-import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
-import type { Activity } from "./types";
+import type { Activity, StudySession } from "./types";
 import { revalidatePath } from "next/cache";
 
 const activitiesCollection = collection(db, "activities");
+const studySessionsCollection = collection(db, "studySessions");
 
 export const addActivity = async (userId: string, activity: Omit<Activity, 'id' | 'userId'>) => {
     if (!userId) throw new Error("User not authenticated");
@@ -37,4 +38,10 @@ export const deleteActivity = async (id: string) => {
     const docRef = doc(db, "activities", id);
     await deleteDoc(docRef);
     revalidatePath("/dashboard");
+};
+
+export const addStudySession = async (userId: string, session: Omit<StudySession, 'id' | 'userId'>) => {
+    if (!userId) throw new Error("User not authenticated");
+    await addDoc(studySessionsCollection, { ...session, userId });
+    revalidatePath("/dashboard/reports");
 };

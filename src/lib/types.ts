@@ -10,6 +10,7 @@ export type Activity = {
 
 export type StudySession = {
   id: string;
+  userId: string;
   activityId: string;
   startTime: Date;
   endTime: Date;

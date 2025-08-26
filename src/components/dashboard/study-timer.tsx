@@ -17,10 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import type { Activity } from '@/lib/types';
-import { getActivities } from '@/lib/firestore';
+import { getActivities, addStudySession } from '@/lib/firestore';
 import { auth } from '@/lib/firebase';
 import type { User } from 'firebase/auth';
 
@@ -38,6 +37,7 @@ export function StudyTimer() {
   const [pomodoros, setPomodoros] = React.useState(0);
   const { toast } = useToast();
   const [activities, setActivities] = React.useState<Activity[]>([]);
+  const [selectedActivityId, setSelectedActivityId] = React.useState<string | null>(null);
   const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
@@ -68,7 +68,7 @@ export function StudyTimer() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, timeLeft]);
 
-  const handleTimerEnd = () => {
+  const handleTimerEnd = async () => {
     setIsActive(false);
     toast({
         title: "Session complete!",
@@ -76,6 +76,24 @@ export function StudyTimer() {
     });
 
     if (mode === 'pomodoro') {
+      if (user && selectedActivityId) {
+        const activity = activities.find(a => a.id === selectedActivityId);
+        if (activity) {
+          try {
+            await addStudySession(user.uid, {
+              activityId: selectedActivityId,
+              startTime: new Date(Date.now() - POMODORO_TIME * 1000),
+              endTime: new Date(),
+              duration: POMODORO_TIME / 60,
+              subject: activity.subject,
+            });
+            toast({ title: "Study session saved!" });
+          } catch (error) {
+            toast({ variant: "destructive", title: "Error saving session" });
+          }
+        }
+      }
+
       const newPomodoros = pomodoros + 1;
       setPomodoros(newPomodoros);
       if (newPomodoros % POMODOROS_BEFORE_LONG_BREAK === 0) {
@@ -97,6 +115,14 @@ export function StudyTimer() {
         variant: "destructive",
         title: "You are not logged in",
         description: "Log in to start a study session.",
+      });
+      return;
+    }
+     if (mode === 'pomodoro' && !selectedActivityId) {
+      toast({
+        variant: "destructive",
+        title: "No activity selected",
+        description: "Please select an activity to focus on.",
       });
       return;
     }
@@ -169,7 +195,11 @@ export function StudyTimer() {
         </div>
         
         <div className="w-full space-y-4">
-          <Select disabled={!user}>
+          <Select 
+            disabled={!user || isActive}
+            onValueChange={(value) => setSelectedActivityId(value)}
+            value={selectedActivityId ?? ""}
+          >
             <SelectTrigger className="py-6">
               <SelectValue placeholder="Select an activity to focus on" />
             </SelectTrigger>
