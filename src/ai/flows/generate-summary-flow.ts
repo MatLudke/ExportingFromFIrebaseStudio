@@ -14,8 +14,8 @@ import type { StudySession } from '@/lib/types';
 const GenerateSummaryInputSchema = z.array(z.object({
     id: z.string(),
     activityId: z.string(),
-    startTime: z.date(),
-    endTime: z.date(),
+    startTime: z.string().datetime(),
+    endTime: z.string().datetime(),
     duration: z.number().describe('Duration in minutes'),
     subject: z.string(),
 }));
@@ -34,7 +34,7 @@ export async function generateSummary(input: StudySession[]): Promise<GenerateSu
     startTime: session.startTime.toISOString(),
     endTime: session.endTime.toISOString(),
   }));
-  return generateSummaryFlow(flowInput as any);
+  return generateSummaryFlow(flowInput);
 }
 
 const prompt = ai.definePrompt({
