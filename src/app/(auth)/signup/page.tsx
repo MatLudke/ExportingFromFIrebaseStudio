@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -16,37 +16,45 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 
-export default function LoginPage() {
+export default function SignupPage() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        router.push('/dashboard');
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // The onAuthStateChanged listener will handle the redirect
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (user) {
+        await updateProfile(user, {
+          displayName: name,
+        });
+      }
+      
+      toast({
+        title: "Account Created!",
+        description: "You can now sign in with your new credentials.",
+      });
+
+      router.push('/login');
+
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Authentication Error",
+        title: "Signup Error",
         description: error.message,
       });
+    } finally {
       setLoading(false);
     }
   };
@@ -55,14 +63,27 @@ export default function LoginPage() {
     <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
       <CardHeader className="text-center space-y-4">
         <Logo className="mb-4 justify-center" />
-        <CardTitle className="text-3xl font-headline tracking-tight">Welcome Back</CardTitle>
+        <CardTitle className="text-3xl font-headline tracking-tight">Create an Account</CardTitle>
         <CardDescription>
-          Enter your email and password to access your dashboard.
+          Enter your details below to get started.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignup}>
           <div className="grid gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Your Name"
+                required
+                className="py-6"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={loading}
+              />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -89,15 +110,15 @@ export default function LoginPage() {
               />
             </div>
             <Button type="submit" className="w-full py-6 text-base" disabled={loading}>
-              {loading ? "Signing In..." : "Sign In"}
+              {loading ? "Creating Account..." : "Create Account"}
             </Button>
           </div>
         </form>
       </CardContent>
       <CardFooter className="text-center text-sm text-muted-foreground justify-center">
-        Don't have an account?{' '}
+        Already have an account?{' '}
         <Button variant="link" asChild className="p-1">
-          <Link href="/signup">Sign up</Link>
+          <Link href="/login">Sign in</Link>
         </Button>
       </CardFooter>
     </Card>
