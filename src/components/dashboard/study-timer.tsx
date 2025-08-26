@@ -18,8 +18,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
-import { mockActivities } from '@/lib/mock-data';
 import { useToast } from '@/hooks/use-toast';
+import type { Activity } from '@/lib/types';
+import { getActivities } from '@/lib/firestore';
+import { auth } from '@/lib/firebase';
+import type { User } from 'firebase/auth';
 
 const POMODORO_TIME = 25 * 60;
 const SHORT_BREAK_TIME = 5 * 60;
@@ -34,6 +37,21 @@ export function StudyTimer() {
   const [mode, setMode] = React.useState<TimerMode>('pomodoro');
   const [pomodoros, setPomodoros] = React.useState(0);
   const { toast } = useToast();
+  const [activities, setActivities] = React.useState<Activity[]>([]);
+  const [user, setUser] = React.useState<User | null>(null);
+
+  React.useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        const userActivities = await getActivities(currentUser.uid);
+        setActivities(userActivities);
+      } else {
+        setActivities([]);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -47,6 +65,7 @@ export function StudyTimer() {
     return () => {
       if (interval) clearInterval(interval);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, timeLeft]);
 
   const handleTimerEnd = () => {
@@ -73,6 +92,14 @@ export function StudyTimer() {
   };
 
   const toggleTimer = () => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Você não está logado",
+        description: "Faça login para iniciar uma sessão de estudo.",
+      });
+      return;
+    }
     setIsActive(!isActive);
   };
 
@@ -142,12 +169,12 @@ export function StudyTimer() {
         </div>
         
         <div className="w-full space-y-4">
-          <Select>
+          <Select disabled={!user}>
             <SelectTrigger className="py-6">
               <SelectValue placeholder="Selecione uma atividade para focar" />
             </SelectTrigger>
             <SelectContent>
-              {mockActivities
+              {activities
                 .filter((a) => a.status !== 'done')
                 .map((activity) => (
                   <SelectItem key={activity.id} value={activity.id}>

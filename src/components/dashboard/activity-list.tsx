@@ -33,36 +33,40 @@ import { getActivities, deleteActivity } from "@/lib/firestore"
 import { auth } from "@/lib/firebase"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
+import type { User } from "firebase/auth"
 
 export function ActivityList() {
     const [activities, setActivities] = React.useState<Activity[]>([]);
     const [loading, setLoading] = React.useState(true);
     const [openDialog, setOpenDialog] = React.useState(false);
     const [selectedActivity, setSelectedActivity] = React.useState<Activity | null>(null);
+    const [user, setUser] = React.useState<User | null>(null);
     const { toast } = useToast();
 
-    React.useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        if (user) {
-          fetchActivities();
-        } else {
-          setLoading(false);
-        }
-      });
-      return () => unsubscribe();
-    }, []);
-
-    const fetchActivities = async () => {
+    const fetchActivities = React.useCallback(async (userId: string) => {
       try {
         setLoading(true);
-        const userActivities = await getActivities();
+        const userActivities = await getActivities(userId);
         setActivities(userActivities);
       } catch (error) {
         toast({ variant: "destructive", title: "Erro ao buscar atividades." });
       } finally {
         setLoading(false);
       }
-    };
+    }, [toast]);
+    
+    React.useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged(currentUser => {
+        setUser(currentUser);
+        if (currentUser) {
+          fetchActivities(currentUser.uid);
+        } else {
+          setActivities([]);
+          setLoading(false);
+        }
+      });
+      return () => unsubscribe();
+    }, [fetchActivities]);
 
     const handleEdit = (activity: Activity) => {
         setSelectedActivity(activity);
@@ -78,7 +82,9 @@ export function ActivityList() {
         try {
             await deleteActivity(id);
             toast({ title: "Atividade deletada com sucesso!" });
-            fetchActivities(); // Refresh list
+            if (user) {
+              fetchActivities(user.uid);
+            }
         } catch (error) {
             toast({ variant: "destructive", title: "Erro ao deletar atividade."});
         }
@@ -93,7 +99,7 @@ export function ActivityList() {
               <CardTitle className="text-2xl font-bold tracking-tight">Minhas Atividades</CardTitle>
               <CardDescription>Gerencie suas tarefas e sessões de estudo.</CardDescription>
             </div>
-            <Button size="sm" className="gap-1" onClick={handleAddNew}>
+            <Button size="sm" className="gap-1" onClick={handleAddNew} disabled={!user}>
               <PlusCircle className="h-4 w-4" />
               Adicionar Atividade
             </Button>
@@ -121,6 +127,12 @@ export function ActivityList() {
                         <TableCell><Skeleton className="h-8 w-8" /></TableCell>
                     </TableRow>
                 ))
+              ) : !user ? (
+                 <TableRow>
+                    <TableCell colSpan={4} className="h-24 text-center">
+                        Faça login para ver suas atividades.
+                    </TableCell>
+                </TableRow>
               ) : activities.length === 0 ? (
                 <TableRow>
                     <TableCell colSpan={4} className="h-24 text-center">
@@ -176,7 +188,9 @@ export function ActivityList() {
           setOpenDialog(isOpen);
           if (!isOpen) {
             setSelectedActivity(null);
-            fetchActivities();
+            if(user) {
+              fetchActivities(user.uid);
+            }
           }
         }} 
         activity={selectedActivity} 

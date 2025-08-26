@@ -26,6 +26,7 @@ import {
 import type { Activity } from "@/lib/types"
 import { addActivity, updateActivity } from "@/lib/firestore"
 import { useToast } from "@/hooks/use-toast"
+import { auth } from "@/lib/firebase"
 
 const activitySchema = z.object({
   title: z.string().min(1, "O título é obrigatório."),
@@ -71,17 +72,32 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
         priority: activity.priority,
       });
     } else {
-      reset();
+      reset({
+        title: "",
+        subject: "",
+        estimatedDuration: 60,
+        priority: "medium",
+      });
     }
   }, [activity, reset, open]);
 
   const onSubmit = async (data: ActivityFormData) => {
+    const user = auth.currentUser;
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Erro de Autenticação",
+        description: "Você precisa estar logado para salvar uma atividade.",
+      });
+      return;
+    }
+
     try {
       if (isEditing && activity) {
         await updateActivity(activity.id, { ...data, status: activity.status });
         toast({ title: "Atividade atualizada com sucesso!" });
       } else {
-        await addActivity({ ...data, status: 'todo' });
+        await addActivity(user.uid, { ...data, status: 'todo' });
         toast({ title: "Atividade adicionada com sucesso!" });
       }
       onOpenChange(false);
@@ -118,7 +134,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
                 </Label>
                 <div className="col-span-3">
                   <Input id="title" {...register("title")} />
-                  {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title.message}</p>}
+                  {errors.title && <p className="text-destructive text-xs mt-1">{errors.title.message}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -127,7 +143,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
                 </Label>
                  <div className="col-span-3">
                   <Input id="subject" {...register("subject")} />
-                  {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
+                  {errors.subject && <p className="text-destructive text-xs mt-1">{errors.subject.message}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -136,7 +152,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
                 </Label>
                 <div className="col-span-3">
                   <Input id="duration" type="number" {...register("estimatedDuration")} />
-                  {errors.estimatedDuration && <p className="text-red-500 text-xs mt-1">{errors.estimatedDuration.message}</p>}
+                  {errors.estimatedDuration && <p className="text-destructive text-xs mt-1">{errors.estimatedDuration.message}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
