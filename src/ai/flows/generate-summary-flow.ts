@@ -14,8 +14,8 @@ import type { StudySession } from '@/lib/types';
 const GenerateSummaryInputSchema = z.array(z.object({
     id: z.string(),
     activityId: z.string(),
-    startTime: z.date(),
-    endTime: z.date(),
+    startTime: z.string().describe("The start time of the session in ISO 8601 format."),
+    endTime: z.string().describe("The end time of the session in ISO 8601 format."),
     duration: z.number().describe('Duration in minutes'),
     subject: z.string(),
 }));
@@ -28,8 +28,8 @@ export type GenerateSummaryOutput = z.infer<typeof GenerateSummaryOutputSchema>;
 
 
 export async function generateSummary(input: StudySession[]): Promise<GenerateSummaryOutput> {
-  // Pass the input directly to the flow as it matches the schema
-  return generateSummaryFlow(input);
+  // Pass the input directly to the flow. Dates will be serialized to strings by Next.js.
+  return generateSummaryFlow(input as any);
 }
 
 const prompt = ai.definePrompt({
