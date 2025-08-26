@@ -69,9 +69,9 @@ export default function SignupPage() {
     }
   };
   
-  const handleSocialLogin = async (provider: any) => {
+  const handleSocialLogin = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, googleProvider);
       toast({
         title: "Account created successfully!",
         description: "Redirecting to your dashboard.",
@@ -158,14 +158,10 @@ export default function SignupPage() {
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" onClick={() => handleSocialLogin(googleProvider)}>
+          <div className="grid gap-4">
+            <Button variant="outline" onClick={handleSocialLogin}>
               <GoogleIcon className="mr-2 h-4 w-4" />
               Google
-            </Button>
-            <Button variant="outline">
-              <AppleIcon className="mr-2 h-4 w-4" />
-              Apple
             </Button>
           </div>
         </div>
