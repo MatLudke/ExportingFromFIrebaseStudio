@@ -19,7 +19,7 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <Sidebar variant="sidebar" collapsible="icon" className="border-r-0 bg-sidebar">
+      <Sidebar variant="floating" collapsible="icon" className="glassmorphic-sidebar">
         <SidebarHeader>
           <Logo />
         </SidebarHeader>
