@@ -52,7 +52,7 @@ O resumo deve:
 Não liste cada sessão. Crie um parágrafo coeso e útil.
 
 Aqui estão os dados das sessões de estudo:
-{{#each @last}}
+{{#each this}}
 - Matéria: {{subject}}, Duração: {{duration}} minutos.
 {{/each}}
 `,
