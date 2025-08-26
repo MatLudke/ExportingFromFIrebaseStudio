@@ -1,5 +1,6 @@
 import { Header } from "@/components/dashboard/header";
 import { ReportCharts } from "@/components/dashboard/report-charts";
+import { StudySummary } from "@/components/dashboard/study-summary";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ReportsPage() {
@@ -8,6 +9,7 @@ export default function ReportsPage() {
         <Header title="Relatórios" />
         <main className="flex-1 overflow-auto p-4 md:p-6">
             <div className="grid gap-6">
+                <StudySummary />
                 <div className="grid gap-6 md:grid-cols-3">
                     <Card>
                         <CardHeader>
