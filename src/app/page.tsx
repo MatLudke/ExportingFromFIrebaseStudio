@@ -15,10 +15,7 @@ export default function Home() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center pop-in">
           <Button asChild size="lg" className="text-lg py-7 px-8">
-            <Link href="/signup">Start Studying</Link>
-          </Button>
-          <Button asChild variant="secondary" size="lg" className="text-lg py-7 px-8">
-            <Link href="/login">Access Account</Link>
+            <Link href="/login">Start Studying</Link>
           </Button>
         </div>
       </div>
