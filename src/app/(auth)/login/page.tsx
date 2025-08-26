@@ -31,14 +31,14 @@ export default function LoginPage() {
       await sendCode({ email });
       setStep('code');
       toast({
-        title: "Code Generated!",
-        description: "Check your server console for the 6-digit code.",
+        title: "Code Sent!",
+        description: "We've sent a 6-digit code to your email address.",
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message,
+        description: "Could not send the verification code. Please check your email and try again.",
       });
     } finally {
       setLoading(false);

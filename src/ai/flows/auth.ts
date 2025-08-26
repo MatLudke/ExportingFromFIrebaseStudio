@@ -2,18 +2,17 @@
 /**
  * @fileoverview Authentication flows for sending and verifying one-time codes.
  *
- * - sendCode: Generates and "sends" a one-time code to a user's email.
+ * - sendCode: Generates and sends a one-time code to a user's email.
  * - verifyCode: Verifies a one-time code submitted by a user.
  *
- * NOTE: This is a simplified prototype. In a real application, you would use
- * a secure database (like Firestore) to store codes and a real email service
- * (like SendGrid). For now, codes are stored in-memory and emails are logged
- * to the console.
+ * This implementation uses Nodemailer to send a real email. You will need to
+ * configure your email service credentials in the .env file.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import * as crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 // In-memory storage for demonstration purposes.
 // DO NOT use this in production. Use a secure database like Firestore.
@@ -32,6 +31,19 @@ const VerificationResultSchema = z.object({
   valid: z.boolean(),
 });
 
+// Configure your email transporter
+// IMPORTANT: Replace the placeholder values in your .env file
+// with your actual email service credentials.
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST, // e.g., 'smtp.sendgrid.net' or 'smtp.gmail.com'
+  port: parseInt(process.env.EMAIL_PORT || '587', 10),
+  secure: (process.env.EMAIL_PORT || '587') === '465', // true for 465, false for other ports
+  auth: {
+    user: process.env.EMAIL_USER, // Your email service username
+    pass: process.env.EMAIL_PASS, // Your email service password or API key
+  },
+});
+
 export const sendCode = ai.defineFlow(
   {
     name: 'sendCodeFlow',
@@ -46,10 +58,10 @@ export const sendCode = ai.defineFlow(
     // 2. Store the code and its expiration
     codeStore.set(email, { code, expires });
 
-    // 3. Generate the email content
+    // 3. Generate the email content using an LLM
     const emailPrompt = `
       You are an automated system that sends verification codes.
-      A user has requested a one-time code to log in.
+      A user has requested a one-time code to log in to the "Zenith" study app.
       The code is: ${code}
       Compose a simple, clear, and concise email body that provides this code to the user.
       Do not include a subject line. Just the body of the email.
@@ -63,24 +75,22 @@ export const sendCode = ai.defineFlow(
 
     const emailBody = llmResponse.text;
 
-    // 4. "Send" the email (log to console for this prototype)
-    console.log('--- SIMULATING SENDING EMAIL ---');
-    console.log(`To: ${email}`);
-    console.log(`Subject: Your Verification Code`);
-    console.log('Body:');
-    console.log(emailBody);
-    console.log('---------------------------------');
-
-    // In a real app, you would use a service like Nodemailer or SendGrid here:
-    //
-    // import nodemailer from 'nodemailer';
-    // const transporter = nodemailer.createTransport({ /* config */ });
-    // await transporter.sendMail({
-    //   from: '"Your App" <no-reply@yourapp.com>',
-    //   to: email,
-    //   subject: "Your Verification Code",
-    //   text: emailBody,
-    // });
+    // 4. Send the email using Nodemailer
+    try {
+      await transporter.sendMail({
+        from: `"Zenith App" <${process.env.EMAIL_FROM || 'no-reply@yourapp.com'}>`,
+        to: email,
+        subject: "Your Zenith Verification Code",
+        text: emailBody,
+        html: `<p>${emailBody.replace(/\n/g, '<br>')}</p>`,
+      });
+      console.log(`Verification code sent to ${email}`);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      // In a real app, you might want to throw an error here to notify the user
+      // that the email could not be sent.
+      throw new Error('Failed to send verification email.');
+    }
   }
 );
 
