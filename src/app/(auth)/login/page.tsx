@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,8 +12,35 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({
+        title: "Login bem-sucedido!",
+        description: "Redirecionando para o seu dashboard.",
+      });
+      router.push('/dashboard');
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Erro de Login",
+        description: "Email ou senha inválidos. Por favor, tente novamente.",
+      });
+    }
+  };
+
   return (
     <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
       <CardHeader className="text-center space-y-4">
@@ -31,6 +60,8 @@ export default function LoginPage() {
               placeholder="seu@email.com"
               required
               className="py-6"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
@@ -43,10 +74,17 @@ export default function LoginPage() {
                 Esqueceu sua senha?
               </Link>
             </div>
-            <Input id="password" type="password" required className="py-6" />
+            <Input 
+              id="password" 
+              type="password" 
+              required 
+              className="py-6"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          <Button type="submit" className="w-full py-6 text-base" asChild>
-            <Link href="/dashboard">Entrar</Link>
+          <Button type="submit" className="w-full py-6 text-base" onClick={handleLogin}>
+            Entrar
           </Button>
         </div>
         <div className="mt-6 text-center text-sm">
