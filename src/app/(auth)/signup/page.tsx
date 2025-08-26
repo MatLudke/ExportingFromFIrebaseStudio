@@ -14,13 +14,10 @@ import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { GoogleIcon } from '@/components/icons/google-icon';
-import { AppleIcon } from '@/components/icons/apple-icon';
-
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState('');
@@ -30,7 +27,8 @@ export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const handleSignup = async () => {
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!termsAccepted) {
       toast({
         variant: "destructive",
@@ -68,24 +66,6 @@ export default function SignupPage() {
       });
     }
   };
-  
-  const handleSocialLogin = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      toast({
-        title: "Account created successfully!",
-        description: "Redirecting to your dashboard.",
-      });
-      router.push('/dashboard');
-    } catch (error: any) {
-       toast({
-        variant: "destructive",
-        title: "Signup Error",
-        description: "An error occurred during social signup. Please try again.",
-      });
-    }
-  };
-
 
   return (
     <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
@@ -97,74 +77,59 @@ export default function SignupPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-6">
-          <div className="grid gap-2">
-            <Label htmlFor="full-name">Full Name</Label>
-            <Input 
-              id="full-name" 
-              placeholder="Your Name" 
-              required 
-              className="py-6"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="your@email.com"
-              required
-              className="py-6"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input 
-              id="password" 
-              type="password" 
-              required 
-              className="py-6"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex items-start space-x-3 pt-2">
-            <Checkbox 
-              id="terms" 
-              required 
-              className="mt-1"
-              checked={termsAccepted}
-              onCheckedChange={(checked) => setTermsAccepted(!!checked)}
-            />
-            <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground">
-              I accept the <Link href="#" className="underline hover:text-primary">terms of service</Link> and <Link href="#" className="underline hover:text-primary">privacy policy</Link>.
-            </Label>
-          </div>
-          <Button type="submit" className="w-full py-6 text-base" onClick={handleSignup}>
-            Create Account for Free
-          </Button>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
+        <form onSubmit={handleSignup}>
+          <div className="grid gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="full-name">Full Name</Label>
+              <Input 
+                id="full-name" 
+                placeholder="Your Name" 
+                required 
+                className="py-6"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="your@email.com"
+                required
+                className="py-6"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-          </div>
-          <div className="grid gap-4">
-            <Button variant="outline" onClick={handleSocialLogin}>
-              <GoogleIcon className="mr-2 h-4 w-4" />
-              Google
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input 
+                id="password" 
+                type="password" 
+                required 
+                className="py-6"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex items-start space-x-3 pt-2">
+              <Checkbox 
+                id="terms" 
+                required 
+                className="mt-1"
+                checked={termsAccepted}
+                onCheckedChange={(checked) => setTermsAccepted(!!checked)}
+              />
+              <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground">
+                I accept the <Link href="#" className="underline hover:text-primary">terms of service</Link> and <Link href="#" className="underline hover:text-primary">privacy policy</Link>.
+              </Label>
+            </div>
+            <Button type="submit" className="w-full py-6 text-base">
+              Create Account for Free
             </Button>
           </div>
-        </div>
+        </form>
         <div className="mt-6 text-center text-sm">
           Already have an account?{' '}
           <Link href="/login" className="font-medium text-primary hover:underline">
