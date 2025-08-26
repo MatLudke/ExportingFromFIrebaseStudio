@@ -1,5 +1,6 @@
 export type Activity = {
   id: string;
+  userId: string;
   title: string;
   subject: string;
   estimatedDuration: number; // in minutes
