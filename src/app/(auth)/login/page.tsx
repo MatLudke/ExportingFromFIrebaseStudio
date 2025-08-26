@@ -31,8 +31,8 @@ export default function LoginPage() {
       await sendCode({ email });
       setStep('code');
       toast({
-        title: "Code Sent!",
-        description: "A 6-digit code has been sent to your email. (Check the console for now)",
+        title: "Code Generated!",
+        description: "Check your server console for the 6-digit code.",
       });
     } catch (error: any) {
       toast({
