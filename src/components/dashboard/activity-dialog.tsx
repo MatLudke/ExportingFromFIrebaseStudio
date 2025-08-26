@@ -29,9 +29,9 @@ import { useToast } from "@/hooks/use-toast"
 import { auth } from "@/lib/firebase"
 
 const activitySchema = z.object({
-  title: z.string().min(1, "O título é obrigatório."),
-  subject: z.string().min(1, "A matéria é obrigatória."),
-  estimatedDuration: z.coerce.number().min(1, "A duração deve ser de pelo menos 1 minuto."),
+  title: z.string().min(1, "Title is required."),
+  subject: z.string().min(1, "Subject is required."),
+  estimatedDuration: z.coerce.number().min(1, "Duration must be at least 1 minute."),
   priority: z.enum(["low", "medium", "high"]),
 });
 
@@ -86,8 +86,8 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
     if (!user) {
       toast({
         variant: "destructive",
-        title: "Erro de Autenticação",
-        description: "Você precisa estar logado para salvar uma atividade.",
+        title: "Authentication Error",
+        description: "You must be logged in to save an activity.",
       });
       return;
     }
@@ -95,17 +95,17 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
     try {
       if (isEditing && activity) {
         await updateActivity(activity.id, { ...data, status: activity.status });
-        toast({ title: "Atividade atualizada com sucesso!" });
+        toast({ title: "Activity updated successfully!" });
       } else {
         await addActivity(user.uid, { ...data, status: 'todo' });
-        toast({ title: "Atividade adicionada com sucesso!" });
+        toast({ title: "Activity added successfully!" });
       }
       onOpenChange(false);
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Erro ao salvar atividade",
-        description: "Ocorreu um erro. Por favor, tente novamente.",
+        title: "Error saving activity",
+        description: "An error occurred. Please try again.",
       });
     }
   };
@@ -122,15 +122,15 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>{isEditing ? 'Editar Atividade' : 'Adicionar Atividade'}</DialogTitle>
+              <DialogTitle>{isEditing ? 'Edit Activity' : 'Add Activity'}</DialogTitle>
               <DialogDescription>
-                {isEditing ? 'Atualize os detalhes da sua atividade de estudo.' : 'Preencha os detalhes da nova atividade de estudo.'}
+                {isEditing ? 'Update the details of your study activity.' : 'Fill in the details for the new study activity.'}
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="title" className="text-right">
-                  Título
+                  Title
                 </Label>
                 <div className="col-span-3">
                   <Input id="title" {...register("title")} />
@@ -139,7 +139,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="subject" className="text-right">
-                  Matéria
+                  Subject
                 </Label>
                  <div className="col-span-3">
                   <Input id="subject" {...register("subject")} />
@@ -148,7 +148,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="duration" className="text-right">
-                  Duração (min)
+                  Duration (min)
                 </Label>
                 <div className="col-span-3">
                   <Input id="duration" type="number" {...register("estimatedDuration")} />
@@ -157,7 +157,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="priority" className="text-right">
-                  Prioridade
+                  Priority
                 </Label>
                 <Controller
                   name="priority"
@@ -165,12 +165,12 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
                   render={({ field }) => (
                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Selecione a prioridade" />
+                        <SelectValue placeholder="Select priority" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="low">Baixa</SelectItem>
-                        <SelectItem value="medium">Média</SelectItem>
-                        <SelectItem value="high">Alta</SelectItem>
+                        <SelectItem value="low">Low</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="high">High</SelectItem>
                       </SelectContent>
                     </Select>
                   )}
@@ -179,7 +179,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
             </div>
             <DialogFooter>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Salvando..." : "Salvar"}
+                {isSubmitting ? "Saving..." : "Save"}
               </Button>
             </DialogFooter>
           </form>

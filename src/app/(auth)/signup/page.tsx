@@ -32,8 +32,8 @@ export default function SignupPage() {
     if (!termsAccepted) {
       toast({
         variant: "destructive",
-        title: "Termos não aceitos",
-        description: "Você precisa aceitar os termos de serviço para criar uma conta.",
+        title: "Terms not accepted",
+        description: "You must accept the terms of service to create an account.",
       });
       return;
     }
@@ -47,21 +47,21 @@ export default function SignupPage() {
       });
 
       toast({
-        title: "Conta criada com sucesso!",
-        description: "Você agora pode fazer login.",
+        title: "Account created successfully!",
+        description: "You can now log in.",
       });
 
       router.push('/login');
     } catch (error: any) {
-      let description = "Ocorreu um erro ao criar sua conta. Tente novamente.";
+      let description = "An error occurred while creating your account. Please try again.";
       if (error.code === 'auth/email-already-in-use') {
-        description = "Este email já está em uso. Tente fazer login.";
+        description = "This email is already in use. Try logging in.";
       } else if (error.code === 'auth/weak-password') {
-        description = "Sua senha é muito fraca. Ela deve ter pelo menos 6 caracteres.";
+        description = "Your password is too weak. It must be at least 6 characters long.";
       }
       toast({
         variant: "destructive",
-        title: "Erro na Criação da Conta",
+        title: "Account Creation Error",
         description,
       });
     }
@@ -72,18 +72,18 @@ export default function SignupPage() {
     <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
       <CardHeader className="text-center space-y-4">
         <Logo className="mb-4 justify-center" />
-        <CardTitle className="text-3xl font-headline tracking-tight">Crie Sua Conta</CardTitle>
+        <CardTitle className="text-3xl font-headline tracking-tight">Create Your Account</CardTitle>
         <CardDescription>
-          Comece sua jornada de produtividade hoje.
+          Start your productivity journey today.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
           <div className="grid gap-2">
-            <Label htmlFor="full-name">Nome Completo</Label>
+            <Label htmlFor="full-name">Full Name</Label>
             <Input 
               id="full-name" 
-              placeholder="Seu Nome" 
+              placeholder="Your Name" 
               required 
               className="py-6"
               value={fullName}
@@ -95,7 +95,7 @@ export default function SignupPage() {
             <Input
               id="email"
               type="email"
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               required
               className="py-6"
               value={email}
@@ -103,7 +103,7 @@ export default function SignupPage() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Senha</Label>
+            <Label htmlFor="password">Password</Label>
             <Input 
               id="password" 
               type="password" 
@@ -122,17 +122,17 @@ export default function SignupPage() {
               onCheckedChange={(checked) => setTermsAccepted(!!checked)}
             />
             <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground">
-              Eu aceito os <Link href="#" className="underline hover:text-primary">termos de serviço</Link> e a <Link href="#" className="underline hover:text-primary">política de privacidade</Link>.
+              I accept the <Link href="#" className="underline hover:text-primary">terms of service</Link> and <Link href="#" className="underline hover:text-primary">privacy policy</Link>.
             </Label>
           </div>
           <Button type="submit" className="w-full py-6 text-base" onClick={handleSignup}>
-            Criar Conta Gratuitamente
+            Create Account for Free
           </Button>
         </div>
         <div className="mt-6 text-center text-sm">
-          Já tem uma conta?{' '}
+          Already have an account?{' '}
           <Link href="/login" className="font-medium text-primary hover:underline">
-            Entrar
+            Sign In
           </Link>
         </div>
       </CardContent>

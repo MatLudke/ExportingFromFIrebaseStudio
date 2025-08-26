@@ -19,8 +19,8 @@ export function ReportCharts() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tempo de Estudo por Matéria</CardTitle>
-        <CardDescription>Horas dedicadas a cada matéria nesta semana.</CardDescription>
+        <CardTitle>Study Time by Subject</CardTitle>
+        <CardDescription>Hours dedicated to each subject this week.</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={{}} className="min-h-[200px] w-full">

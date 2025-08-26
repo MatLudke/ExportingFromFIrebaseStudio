@@ -41,15 +41,15 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast({
-        title: "Login bem-sucedido!",
-        description: "Redirecionando para o seu dashboard.",
+        title: "Login successful!",
+        description: "Redirecting to your dashboard.",
       });
       router.push('/dashboard');
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Erro de Login",
-        description: "Email ou senha inválidos. Por favor, tente novamente.",
+        title: "Login Error",
+        description: "Invalid email or password. Please try again.",
       });
     }
   };
@@ -57,7 +57,7 @@ export default function LoginPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p>Carregando...</p>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -66,9 +66,9 @@ export default function LoginPage() {
     <Card className="mx-auto max-w-sm w-full border-none shadow-2xl shadow-black/10">
       <CardHeader className="text-center space-y-4">
         <Logo className="mb-4 justify-center" />
-        <CardTitle className="text-3xl font-headline tracking-tight">Bem-vindo de Volta</CardTitle>
+        <CardTitle className="text-3xl font-headline tracking-tight">Welcome Back</CardTitle>
         <CardDescription>
-          Acesse sua conta para continuar.
+          Access your account to continue.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -78,7 +78,7 @@ export default function LoginPage() {
             <Input
               id="email"
               type="email"
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               required
               className="py-6"
               value={email}
@@ -87,12 +87,12 @@ export default function LoginPage() {
           </div>
           <div className="grid gap-2">
             <div className="flex items-center">
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="password">Password</Label>
               <Link
                 href="#"
                 className="ml-auto inline-block text-sm text-primary hover:underline"
               >
-                Esqueceu sua senha?
+                Forgot your password?
               </Link>
             </div>
             <Input 
@@ -105,13 +105,13 @@ export default function LoginPage() {
             />
           </div>
           <Button type="submit" className="w-full py-6 text-base" onClick={handleLogin}>
-            Entrar
+            Sign In
           </Button>
         </div>
         <div className="mt-6 text-center text-sm">
-          Não tem uma conta?{' '}
+          Don't have an account?{' '}
           <Link href="/signup" className="font-medium text-primary hover:underline">
-            Criar conta
+            Create account
           </Link>
         </div>
       </CardContent>

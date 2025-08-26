@@ -5,35 +5,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function ReportsPage() {
     return (
       <>
-        <Header title="Relatórios" />
+        <Header title="Reports" />
         <main className="flex-1 overflow-auto p-4 md:p-6 pt-28">
             <div className="grid gap-6">
                 <div className="grid gap-6 md:grid-cols-3">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Sessões Concluídas</CardTitle>
+                            <CardTitle>Sessions Completed</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-4xl font-bold">12</div>
-                            <p className="text-xs text-muted-foreground">+2 na última semana</p>
+                            <p className="text-xs text-muted-foreground">+2 in the last week</p>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Horas de Foco</CardTitle>
+                            <CardTitle>Focus Hours</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-4xl font-bold">8.5h</div>
-                            <p className="text-xs text-muted-foreground">+1.2h na última semana</p>
+                            <p className="text-xs text-muted-foreground">+1.2h in the last week</p>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Eficiência</CardTitle>
+                            <CardTitle>Efficiency</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-4xl font-bold">92%</div>
-                            <p className="text-xs text-muted-foreground">Média de atividades concluídas</p>
+                            <p className="text-xs text-muted-foreground">Average of completed activities</p>
                         </CardContent>
                     </Card>
                 </div>

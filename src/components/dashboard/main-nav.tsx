@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard' },
-  { href: '/dashboard/reports', label: 'Relatórios' },
-  { href: '/dashboard/settings', label: 'Configurações' },
+  { href: '/dashboard/reports', label: 'Reports' },
+  { href: '/dashboard/settings', label: 'Settings' },
 ];
 
 export function MainNav() {

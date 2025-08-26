@@ -19,39 +19,39 @@ export default function SettingsPage() {
 
   return (
     <>
-      <Header title="Configurações" />
+      <Header title="Settings" />
       <main className="flex-1 overflow-auto p-4 md:p-6 pt-28">
         <div className="max-w-2xl grid gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Perfil</CardTitle>
+              <CardTitle>Profile</CardTitle>
               <CardDescription>
-                Atualize as informações da sua conta.
+                Update your account information.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Nome</Label>
-                <Input id="name" defaultValue="Estudante" />
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" defaultValue="Student" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
-                  defaultValue="estudante@email.com"
+                  defaultValue="student@email.com"
                   disabled
                 />
               </div>
-              <Button>Salvar Alterações</Button>
+              <Button>Save Changes</Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Aparência</CardTitle>
+              <CardTitle>Appearance</CardTitle>
               <CardDescription>
-                Personalize a aparência do aplicativo.
+                Customize the appearance of the application.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -79,7 +79,7 @@ export default function SettingsPage() {
                     </div>
                   </div>
                   <span className="block w-full p-2 text-center font-normal">
-                    Claro
+                    Light
                   </span>
                 </Label>
                 <Label className="[&:has([data-state=checked])>div]:border-primary">
@@ -101,7 +101,7 @@ export default function SettingsPage() {
                     </div>
                   </div>
                   <span className="block w-full p-2 text-center font-normal">
-                    Escuro
+                    Dark
                   </span>
                 </Label>
               </RadioGroup>
@@ -110,21 +110,21 @@ export default function SettingsPage() {
           
           <Card className="mt-6">
             <CardHeader>
-              <CardTitle>Senha</CardTitle>
+              <CardTitle>Password</CardTitle>
               <CardDescription>
-                Altere sua senha. Recomendamos usar uma senha forte.
+                Change your password. We recommend using a strong password.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="current-password">Senha Atual</Label>
+                <Label htmlFor="current-password">Current Password</Label>
                 <Input id="current-password" type="password" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="new-password">Nova Senha</Label>
+                <Label htmlFor="new-password">New Password</Label>
                 <Input id="new-password" type="password" />
               </div>
-              <Button>Alterar Senha</Button>
+              <Button>Change Password</Button>
             </CardContent>
           </Card>
         </div>

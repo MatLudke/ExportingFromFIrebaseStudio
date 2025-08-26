@@ -71,8 +71,8 @@ export function StudyTimer() {
   const handleTimerEnd = () => {
     setIsActive(false);
     toast({
-        title: "Sessão concluída!",
-        description: mode === 'pomodoro' ? "Hora de uma pausa!" : "Pausa terminada. Pronto para focar?",
+        title: "Session complete!",
+        description: mode === 'pomodoro' ? "Time for a break!" : "Break's over. Ready to focus?",
     });
 
     if (mode === 'pomodoro') {
@@ -95,8 +95,8 @@ export function StudyTimer() {
     if (!user) {
       toast({
         variant: "destructive",
-        title: "Você não está logado",
-        description: "Faça login para iniciar uma sessão de estudo.",
+        title: "You are not logged in",
+        description: "Log in to start a study session.",
       });
       return;
     }
@@ -118,9 +118,9 @@ export function StudyTimer() {
 
   const getModeLabel = () => {
     switch (mode) {
-      case 'pomodoro': return 'Foco';
-      case 'shortBreak': return 'Pausa Curta';
-      case 'longBreak': return 'Pausa Longa';
+      case 'pomodoro': return 'Focus';
+      case 'shortBreak': return 'Short Break';
+      case 'longBreak': return 'Long Break';
     }
   }
 
@@ -137,12 +137,12 @@ export function StudyTimer() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-2xl font-bold tracking-tight">Sessão de Estudo</CardTitle>
+            <CardTitle className="text-2xl font-bold tracking-tight">Study Session</CardTitle>
             <CardDescription>{getModeLabel()}</CardDescription>
           </div>
           <Button variant="ghost" size="icon">
             <Settings className="h-5 w-5" />
-            <span className="sr-only">Configurações do timer</span>
+            <span className="sr-only">Timer Settings</span>
           </Button>
         </div>
       </CardHeader>
@@ -171,7 +171,7 @@ export function StudyTimer() {
         <div className="w-full space-y-4">
           <Select disabled={!user}>
             <SelectTrigger className="py-6">
-              <SelectValue placeholder="Selecione uma atividade para focar" />
+              <SelectValue placeholder="Select an activity to focus on" />
             </SelectTrigger>
             <SelectContent>
               {activities
@@ -186,7 +186,7 @@ export function StudyTimer() {
           <div className="flex justify-center gap-4">
             <Button size="lg" onClick={toggleTimer} className="w-40 py-7 text-lg">
               {isActive ? <Pause className="mr-2 h-5 w-5" /> : <Play className="mr-2 h-5 w-5" />}
-              {isActive ? 'Pausar' : 'Iniciar'}
+              {isActive ? 'Pause' : 'Start'}
             </Button>
             <Button size="lg" variant="outline" onClick={resetTimer} className="py-7">
               <RefreshCw className="h-5 w-5" />

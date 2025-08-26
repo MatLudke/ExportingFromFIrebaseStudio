@@ -49,7 +49,7 @@ export function ActivityList() {
         const userActivities = await getActivities(userId);
         setActivities(userActivities);
       } catch (error) {
-        toast({ variant: "destructive", title: "Erro ao buscar atividades." });
+        toast({ variant: "destructive", title: "Error fetching activities." });
       } finally {
         setLoading(false);
       }
@@ -81,12 +81,12 @@ export function ActivityList() {
     const handleDelete = async (id: string) => {
         try {
             await deleteActivity(id);
-            toast({ title: "Atividade deletada com sucesso!" });
+            toast({ title: "Activity deleted successfully!" });
             if (user) {
               fetchActivities(user.uid);
             }
         } catch (error) {
-            toast({ variant: "destructive", title: "Erro ao deletar atividade."});
+            toast({ variant: "destructive", title: "Error deleting activity."});
         }
     };
 
@@ -96,12 +96,12 @@ export function ActivityList() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-2xl font-bold tracking-tight">Minhas Atividades</CardTitle>
-              <CardDescription>Gerencie suas tarefas e sessões de estudo.</CardDescription>
+              <CardTitle className="text-2xl font-bold tracking-tight">My Activities</CardTitle>
+              <CardDescription>Manage your tasks and study sessions.</CardDescription>
             </div>
             <Button size="sm" className="gap-1" onClick={handleAddNew} disabled={!user}>
               <PlusCircle className="h-4 w-4" />
-              Adicionar Atividade
+              Add Activity
             </Button>
           </div>
         </CardHeader>
@@ -109,11 +109,11 @@ export function ActivityList() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Atividade</TableHead>
-                <TableHead>Matéria</TableHead>
-                <TableHead className="hidden md:table-cell">Prioridade</TableHead>
+                <TableHead>Activity</TableHead>
+                <TableHead>Subject</TableHead>
+                <TableHead className="hidden md:table-cell">Priority</TableHead>
                 <TableHead>
-                  <span className="sr-only">Ações</span>
+                  <span className="sr-only">Actions</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -130,13 +130,13 @@ export function ActivityList() {
               ) : !user ? (
                  <TableRow>
                     <TableCell colSpan={4} className="h-24 text-center">
-                        Faça login para ver suas atividades.
+                        Log in to see your activities.
                     </TableCell>
                 </TableRow>
               ) : activities.length === 0 ? (
                 <TableRow>
                     <TableCell colSpan={4} className="h-24 text-center">
-                        Nenhuma atividade encontrada. Adicione uma para começar!
+                        No activities found. Add one to get started!
                     </TableCell>
                 </TableRow>
               ) : (
@@ -151,7 +151,7 @@ export function ActivityList() {
                         activity.priority === 'medium' && 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/40 dark:text-yellow-300 dark:border-yellow-800',
                         activity.priority === 'low' && 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800'
                       )}>
-                        {activity.priority === 'high' ? 'Alta' : activity.priority === 'medium' ? 'Média' : 'Baixa'}
+                        {activity.priority === 'high' ? 'High' : activity.priority === 'medium' ? 'Medium' : 'Low'}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -164,13 +164,13 @@ export function ActivityList() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => handleEdit(activity)}>
-                              <Pencil className="mr-2 h-4 w-4"/> Editar
+                              <Pencil className="mr-2 h-4 w-4"/> Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             className="text-destructive focus:text-destructive focus:bg-destructive/10"
                             onClick={() => handleDelete(activity.id)}
                           >
-                              <Trash2 className="mr-2 h-4 w-4"/> Deletar
+                              <Trash2 className="mr-2 h-4 w-4"/> Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
