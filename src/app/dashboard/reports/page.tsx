@@ -6,7 +6,7 @@ export default function ReportsPage() {
     return (
       <>
         <Header title="Relatórios" />
-        <main className="flex-1 overflow-auto p-4 md:p-6">
+        <main className="flex-1 overflow-auto p-4 md:p-6 pt-28">
             <div className="grid gap-6">
                 <div className="grid gap-6 md:grid-cols-3">
                     <Card>

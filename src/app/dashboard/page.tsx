@@ -33,7 +33,7 @@ export default function DashboardPage() {
   return (
     <>
       <Header title="Dashboard" />
-      <main className="flex-1 overflow-auto p-6 md:p-8">
+      <main className="flex-1 overflow-auto p-6 md:p-8 pt-28">
         <motion.div 
           className="grid gap-8 lg:grid-cols-3"
           variants={containerVariants}

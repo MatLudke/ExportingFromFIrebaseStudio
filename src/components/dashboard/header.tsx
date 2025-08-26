@@ -1,5 +1,6 @@
-import { SidebarTrigger } from '@/components/ui/sidebar';
 import { UserNav } from './user-nav';
+import { Logo } from '../logo';
+import { MainNav } from './main-nav';
 
 interface HeaderProps {
     title: string;
@@ -7,12 +8,14 @@ interface HeaderProps {
 
 export function Header({ title }: HeaderProps) {
     return (
-        <header className="sticky top-0 z-10 flex h-20 items-center gap-4 border-b bg-background/80 px-6 backdrop-blur-sm md:px-8">
-            <div className="md:hidden">
-              <SidebarTrigger />
+        <header className="fixed top-0 left-0 right-0 z-20">
+            <div className="container mx-auto max-w-4xl">
+                <div className="mt-4 flex items-center justify-between rounded-2xl border bg-background/80 p-4 shadow-lg backdrop-blur-lg">
+                    <Logo />
+                    <MainNav />
+                    <UserNav />
+                </div>
             </div>
-            <h1 className="flex-1 text-2xl font-bold tracking-tight font-headline">{title}</h1>
-            <UserNav />
         </header>
     )
 }
