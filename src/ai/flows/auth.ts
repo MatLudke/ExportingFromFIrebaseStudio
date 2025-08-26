@@ -12,8 +12,7 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit/zod';
-import { generate } from 'genkit/tools';
+import { z } from 'zod';
 import * as crypto from 'crypto';
 
 // In-memory storage for demonstration purposes.
@@ -57,12 +56,12 @@ export const sendCode = ai.defineFlow(
       The email should state that the code expires in 10 minutes.
     `;
 
-    const llmResponse = await generate({
+    const llmResponse = await ai.generate({
       prompt: emailPrompt,
       model: 'googleai/gemini-2.5-flash',
     });
 
-    const emailBody = llmResponse.text();
+    const emailBody = llmResponse.text;
 
     // 4. "Send" the email (log to console for this prototype)
     console.log('--- SIMULATING SENDING EMAIL ---');
