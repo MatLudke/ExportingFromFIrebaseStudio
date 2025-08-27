@@ -74,8 +74,8 @@ export default function SettingsPage() {
   return (
     <>
       <Header title="Settings" />
-      <main className="flex-1 flex items-center justify-center p-4 md:p-6">
-        <div className="max-w-2xl w-full grid gap-6">
+      <main className="flex-1 overflow-auto p-4 md:p-6 pt-40">
+        <div className="max-w-2xl w-full grid gap-6 mx-auto">
           <Card>
             <CardHeader>
               <CardTitle>Appearance</CardTitle>
@@ -87,7 +87,7 @@ export default function SettingsPage() {
               <RadioGroup
                 defaultValue={theme}
                 onValueChange={setTheme}
-                className="grid max-w-md grid-cols-2 gap-8 pt-2"
+                className="grid max-w-md grid-cols-2 gap-8 pt-2 mx-auto"
               >
                 <Label className="[&:has([data-state=checked])>div]:border-primary">
                   <RadioGroupItem value="light" className="sr-only" />
