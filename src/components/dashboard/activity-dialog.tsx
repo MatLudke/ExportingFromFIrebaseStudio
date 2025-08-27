@@ -63,20 +63,22 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
   });
 
   useEffect(() => {
-    if (open && activity) {
-      reset({
-        title: activity.title,
-        subject: activity.subject,
-        estimatedDuration: activity.estimatedDuration,
-        priority: activity.priority,
-      });
-    } else if (open && !activity) {
-      reset({
-        title: "",
-        subject: "",
-        estimatedDuration: 60,
-        priority: "medium",
-      });
+    if (open) {
+      if (activity) {
+        reset({
+          title: activity.title,
+          subject: activity.subject,
+          estimatedDuration: activity.estimatedDuration,
+          priority: activity.priority,
+        });
+      } else {
+        reset({
+          title: "",
+          subject: "",
+          estimatedDuration: 60,
+          priority: "medium",
+        });
+      }
     }
   }, [activity, reset, open]);
 
