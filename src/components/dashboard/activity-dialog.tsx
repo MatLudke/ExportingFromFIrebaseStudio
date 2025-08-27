@@ -113,13 +113,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          className="sm:max-w-[425px]"
-        >
+      <DialogContent className="sm:max-w-[425px]">
           <form onSubmit={handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>{isEditing ? 'Edit Activity' : 'Add Activity'}</DialogTitle>
@@ -183,7 +177,6 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
               </Button>
             </DialogFooter>
           </form>
-        </motion.div>
       </DialogContent>
     </Dialog>
   )
