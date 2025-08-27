@@ -31,7 +31,7 @@ Estudantes de ensino médio e superior que buscam ferramentas para planejar e co
 
 | ID   | Requisito                               | Prioridade | Status      |
 |------|-----------------------------------------|------------|-------------|
-| RF01 | Gerenciar Conta com Código Único        | Must       | Implementado|
+| RF01 | Gerenciar Conta com Provedor Google     | Must       | Implementado|
 | RF02 | Criar e Gerenciar Atividades de Estudo  | Must       | Implementado|
 | RF03 | Timer / Sessões de Estudo (Pomodoro)    | Must       | Implementado|
 | RF04 | Histórico e Relatórios de Uso           | Should     | Implementado|
@@ -55,14 +55,13 @@ Estudantes de ensino médio e superior que buscam ferramentas para planejar e co
 
 #### Épico A — Gerenciar Conta e Acesso (RF01)
 
-**HU-A1 — Login ou Cadastro com Código via E-mail**
+**HU-A1 — Login ou Cadastro com Conta Google**
 - **Como:** um usuário novo ou existente,
-- **Eu quero:** inserir meu e-mail para receber um código de acesso único,
+- **Eu quero:** usar minha conta Google para acessar a aplicação,
 - **Para que:** eu possa acessar minha conta de forma rápida e segura, sem precisar de senha.
 - **Critérios de aceite:**
-    - Dado que o usuário insere um e-mail válido, quando clica em "Enviar Código", então um e-mail contendo um código de 6 dígitos é enviado.
-    - Dado que o usuário insere o código correto na tela de verificação, então ele é autenticado com sucesso e redirecionado para o dashboard.
-    - Dado que o código está incorreto ou expirou, então uma mensagem de erro é exibida.
+    - Dado que o usuário clica em "Sign in with Google", quando autoriza o acesso, então ele é autenticado com sucesso e redirecionado para o dashboard.
+    - Dado que a autenticação falha, então uma mensagem de erro é exibida.
 - **Priorização:** Must
 
 #### Épico B — Gerenciar Atividades de Estudo (RF02)
@@ -90,8 +89,8 @@ Estudantes de ensino médio e superior que buscam ferramentas para planejar e co
 | **Next.js**             | Frontend (React) e UI do lado do servidor.           |
 | **TypeScript**          | Linguagem estática para maior segurança do código.   |
 | **Firebase Firestore**  | Banco de dados NoSQL para persistência de dados.     |
-| **Genkit (Google AI)**  | Backend de IA para lógica de negócio (ex: envio de código). |
-| **Nodemailer**          | Serviço de envio de e-mails para o código de acesso. |
+| **Firebase Authentication** | Serviço de autenticação (Google Sign-In).          |
+| **Genkit (Google AI)**  | Toolkit para funcionalidades de IA.                  |
 | **ShadCN UI & Tailwind**| Componentes de UI e estilização.                     |
 | **Vercel / Firebase Hosting**| Plataforma de deploy e CI/CD.                   |
 | **Lucide React**        | Biblioteca de ícones.                                |
