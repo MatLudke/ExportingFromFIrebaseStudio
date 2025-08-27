@@ -17,8 +17,8 @@ const lexend = Lexend({
 });
 
 export const metadata: Metadata = {
-  title: 'Zenith',
-  description: 'Your journey to more productive studies starts here.',
+  title: 'Tempo Certo',
+  description: 'Sua jornada para estudos mais produtivos começa aqui.',
 };
 
 export default function RootLayout({

@@ -61,7 +61,7 @@ export const sendCode = ai.defineFlow(
     // 3. Generate the email content using an LLM
     const emailPrompt = `
       You are an automated system that sends verification codes.
-      A user has requested a one-time code to log in to the "Zenith" study app.
+      A user has requested a one-time code to log in to the "Tempo Certo" study app.
       The code is: ${code}
       Compose a simple, clear, and concise email body that provides this code to the user.
       Do not include a subject line. Just the body of the email.
@@ -78,9 +78,9 @@ export const sendCode = ai.defineFlow(
     // 4. Send the email using Nodemailer
     try {
       await transporter.sendMail({
-        from: `"Zenith App" <${process.env.EMAIL_FROM || 'no-reply@yourapp.com'}>`,
+        from: `"Tempo Certo" <${process.env.EMAIL_FROM || 'no-reply@yourapp.com'}>`,
         to: email,
-        subject: "Your Zenith Verification Code",
+        subject: "Seu código de verificação para o Tempo Certo",
         text: emailBody,
         html: `<p>${emailBody.replace(/\n/g, '<br>')}</p>`,
       });
