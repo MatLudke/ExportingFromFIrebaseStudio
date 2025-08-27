@@ -9,10 +9,9 @@ import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   "projectId": "tempo-certo-qf64u",
   "appId": "1:1044295739285:web:d583b8dfdb56de33ec789c",
-  "storageBucket": "tempo-certo-qf64u.firebasestorage.app",
+  "storageBucket": "tempo-certo-qf64u.appspot.com",
   "apiKey": "AIzaSyBCuaWiC3-tlpttDR_PBfGgKtFsKMflrK8",
   "authDomain": "tempo-certo-qf64u.firebaseapp.com",
-  "measurementId": "",
   "messagingSenderId": "1044295739285"
 };
 
