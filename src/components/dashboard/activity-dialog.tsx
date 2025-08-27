@@ -63,14 +63,14 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
   });
 
   useEffect(() => {
-    if (activity) {
+    if (open && activity) {
       reset({
         title: activity.title,
         subject: activity.subject,
         estimatedDuration: activity.estimatedDuration,
         priority: activity.priority,
       });
-    } else {
+    } else if (open && !activity) {
       reset({
         title: "",
         subject: "",
