@@ -11,8 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useTheme } from "next-themes";
 import {
@@ -29,6 +27,7 @@ import { auth } from '@/lib/firebase';
 import { deleteUser, reauthenticateWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { Label } from '@/components/ui/label';
 
 
 export default function SettingsPage() {
@@ -76,7 +75,7 @@ export default function SettingsPage() {
     <>
       <Header title="Settings" />
       <main className="flex-1 overflow-auto p-4 md:p-6 pt-28">
-        <div className="max-w-2xl grid gap-6">
+        <div className="max-w-2xl grid gap-6 mx-auto">
           <Card>
             <CardHeader>
               <CardTitle>Appearance</CardTitle>
