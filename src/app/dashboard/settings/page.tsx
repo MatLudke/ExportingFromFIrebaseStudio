@@ -74,7 +74,7 @@ export default function SettingsPage() {
   return (
     <>
       <Header title="Settings" />
-      <main className="flex-1 overflow-auto p-4 md:p-6 pt-32">
+      <main className="flex-1 overflow-auto p-4 md:p-6 pt-40">
         <div className="max-w-2xl grid gap-6 mx-auto">
           <Card>
             <CardHeader>
