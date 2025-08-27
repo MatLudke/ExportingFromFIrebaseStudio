@@ -113,7 +113,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent asChild>
+      <DialogContent>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
