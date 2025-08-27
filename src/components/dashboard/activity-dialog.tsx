@@ -40,9 +40,10 @@ interface ActivityDialogProps {
   activity?: Activity | null
   open: boolean
   onOpenChange: (open: boolean) => void
+  onSuccess: () => void;
 }
 
-export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogProps) {
+export function ActivityDialog({ open, onOpenChange, activity, onSuccess }: ActivityDialogProps) {
   const isEditing = !!activity;
   const { toast } = useToast();
 
@@ -101,7 +102,7 @@ export function ActivityDialog({ open, onOpenChange, activity }: ActivityDialogP
         await addActivity(user.uid, { ...data, status: 'todo' });
         toast({ title: "Activity added successfully!" });
       }
-      onOpenChange(false);
+      onSuccess();
     } catch (error) {
       toast({
         variant: "destructive",

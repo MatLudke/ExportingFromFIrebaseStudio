@@ -90,6 +90,14 @@ export function ActivityList() {
         }
     };
 
+    const handleDialogSuccess = () => {
+      setOpenDialog(false);
+      setSelectedActivity(null);
+      if (user) {
+        fetchActivities(user.uid);
+      }
+    };
+
   return (
     <>
       <Card className="border-none shadow-xl shadow-black/5">
@@ -184,16 +192,9 @@ export function ActivityList() {
       </Card>
       <ActivityDialog 
         open={openDialog} 
-        onOpenChange={(isOpen) => {
-          setOpenDialog(isOpen);
-          if (!isOpen) {
-            setSelectedActivity(null);
-            if(user) {
-              fetchActivities(user.uid);
-            }
-          }
-        }} 
+        onOpenChange={setOpenDialog} 
         activity={selectedActivity} 
+        onSuccess={handleDialogSuccess}
       />
     </>
   )
