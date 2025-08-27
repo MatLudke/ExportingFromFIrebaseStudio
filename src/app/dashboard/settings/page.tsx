@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTheme } from "next-themes";
 import {
   AlertDialog,
@@ -81,86 +82,98 @@ export default function SettingsPage() {
     <>
       <Header title="Settings" />
       <main className="flex-1 overflow-auto p-4 md:p-6 pt-40">
-        <div className="max-w-2xl w-full grid gap-6 mx-auto">
-          <Card>
-            <CardHeader>
-              <CardTitle>Appearance</CardTitle>
-              <CardDescription>
-                Customize the appearance of the application.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {!isMounted ? (
-                <div className="grid max-w-md grid-cols-2 gap-8 pt-2 mx-auto">
-                    <Skeleton className="h-[150px] w-full" />
-                    <Skeleton className="h-[150px] w-full" />
-                </div>
-              ) : (
-                <RadioGroup
-                  defaultValue={theme}
-                  onValueChange={setTheme}
-                  className="grid max-w-md grid-cols-2 gap-8 pt-2 mx-auto"
-                >
-                  <Label className="[&:has([data-state=checked])>div]:border-primary">
-                    <RadioGroupItem value="light" className="sr-only" />
-                    <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
-                      <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
-                        <div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
-                          <div className="h-2 w-4/5 rounded-lg bg-[#ecedef]" />
-                          <div className="h-2 w-full rounded-lg bg-[#ecedef]" />
-                        </div>
-                        <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
-                          <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
-                          <div className="h-2 w-full rounded-lg bg-[#ecedef]" />
-                        </div>
-                        <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
-                          <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
-                          <div className="h-2 w-full rounded-lg bg-[#ecedef]" />
-                        </div>
-                      </div>
-                    </div>
-                    <span className="block w-full p-2 text-center font-normal">
-                      Light
-                    </span>
-                  </Label>
-                  <Label className="[&:has([data-state=checked])>div]:border-primary">
-                    <RadioGroupItem value="dark" className="sr-only" />
-                    <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:border-accent">
-                      <div className="space-y-2 rounded-sm bg-slate-950 p-2">
-                        <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
-                          <div className="h-2 w-4/5 rounded-lg bg-slate-400" />
-                          <div className="h-2 w-full rounded-lg bg-slate-400" />
-                        </div>
-                        <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
-                          <div className="h-4 w-4 rounded-full bg-slate-400" />
-                          <div className="h-2 w-full rounded-lg bg-slate-400" />
-                        </div>
-                        <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
-                          <div className="h-4 w-4 rounded-full bg-slate-400" />
-                          <div className="h-2 w-full rounded-lg bg-slate-400" />
-                        </div>
-                      </div>
-                    </div>
-                    <span className="block w-full p-2 text-center font-normal">
-                      Dark
-                    </span>
-                  </Label>
-                </RadioGroup>
-              )}
-            </CardContent>
-          </Card>
-          
-          <Card className="border-destructive">
-            <CardHeader>
-                <CardTitle>Danger Zone</CardTitle>
-                <CardDescription>
-                    These actions are permanent and cannot be undone.
-                </CardDescription>
-            </CardHeader>
-            <CardFooter>
-                 <Button variant="destructive" onClick={() => setOpen(true)}>Delete Account</Button>
-            </CardFooter>
-          </Card>
+        <div className="mx-auto w-full max-w-2xl">
+            <h1 className="text-3xl font-headline font-bold tracking-tight mb-2">Settings</h1>
+            <p className="text-muted-foreground mb-8">Manage your account and application preferences.</p>
+
+            <Tabs defaultValue="appearance" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="appearance">Appearance</TabsTrigger>
+                    <TabsTrigger value="danger">Danger Zone</TabsTrigger>
+                </TabsList>
+                <TabsContent value="appearance">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Appearance</CardTitle>
+                            <CardDescription>
+                                Customize the look and feel of the application.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                        {!isMounted ? (
+                            <div className="grid max-w-md grid-cols-2 gap-8 pt-2 mx-auto">
+                                <Skeleton className="h-[150px] w-full" />
+                                <Skeleton className="h-[150px] w-full" />
+                            </div>
+                        ) : (
+                            <RadioGroup
+                            defaultValue={theme}
+                            onValueChange={setTheme}
+                            className="grid max-w-md grid-cols-2 gap-8 pt-2 mx-auto"
+                            >
+                            <Label className="[&:has([data-state=checked])>div]:border-primary">
+                                <RadioGroupItem value="light" className="sr-only" />
+                                <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                                <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
+                                    <div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
+                                    <div className="h-2 w-4/5 rounded-lg bg-[#ecedef]" />
+                                    <div className="h-2 w-full rounded-lg bg-[#ecedef]" />
+                                    </div>
+                                    <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                                    <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
+                                    <div className="h-2 w-full rounded-lg bg-[#ecedef]" />
+                                    </div>
+                                    <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                                    <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
+                                    <div className="h-2 w-full rounded-lg bg-[#ecedef]" />
+                                    </div>
+                                </div>
+                                </div>
+                                <span className="block w-full p-2 text-center font-normal">
+                                Light
+                                </span>
+                            </Label>
+                            <Label className="[&:has([data-state=checked])>div]:border-primary">
+                                <RadioGroupItem value="dark" className="sr-only" />
+                                <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:border-accent">
+                                <div className="space-y-2 rounded-sm bg-slate-950 p-2">
+                                    <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                    <div className="h-2 w-4/5 rounded-lg bg-slate-400" />
+                                    <div className="h-2 w-full rounded-lg bg-slate-400" />
+                                    </div>
+                                    <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                    <div className="h-4 w-4 rounded-full bg-slate-400" />
+                                    <div className="h-2 w-full rounded-lg bg-slate-400" />
+                                    </div>
+                                    <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                    <div className="h-4 w-4 rounded-full bg-slate-400" />
+                                    <div className="h-2 w-full rounded-lg bg-slate-400" />
+                                    </div>
+                                </div>
+                                </div>
+                                <span className="block w-full p-2 text-center font-normal">
+                                Dark
+                                </span>
+                            </Label>
+                            </RadioGroup>
+                        )}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="danger">
+                     <Card className="border-destructive">
+                        <CardHeader>
+                            <CardTitle>Delete Account</CardTitle>
+                            <CardDescription>
+                                This action is permanent and cannot be undone. This will permanently delete your account and remove all your data from our servers.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardFooter>
+                            <Button variant="destructive" onClick={() => setOpen(true)}>Delete My Account</Button>
+                        </CardFooter>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
       </main>
        <AlertDialog open={open} onOpenChange={setOpen}>
@@ -187,3 +200,5 @@ export default function SettingsPage() {
     </>
   );
 }
+
+    
